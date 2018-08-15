@@ -2,10 +2,10 @@
 
 const Hapi = require('hapi');
 
-const server = Hapi.server({
-    port: 3000,
-    host: 'localhost'
-});
+
+// load config & create server
+const config = require('./app/configs');
+const server = Hapi.server(config.server);
 
 
 // register routes
