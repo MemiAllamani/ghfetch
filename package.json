@@ -4,7 +4,7 @@
   "description": "A simple app to fetch github repositories for a user",
   "main": "server.js",
   "scripts": {
-    "start": "node ./src/index.js",
+    "start": "nodemon ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Memi Allamani",
