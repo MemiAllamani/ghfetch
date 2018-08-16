@@ -3,7 +3,7 @@
 let config = {};
 
 // load configuration based on running env
-console.log(process.env.NODE_ENV);
+
 switch (process.env.NODE_ENV || 'dev') {
     case 'prod':
         config = require('./env_prod');
