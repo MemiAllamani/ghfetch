@@ -11,8 +11,9 @@ class DbService {
     }
 
     async create(model) {
-        await knex(this.tableName)
+        let result = await knex(this.tableName)
             .insert(model);
+        return result ? result[0] : null;
     }
 
     async update(model) {
@@ -21,16 +22,16 @@ class DbService {
             .update(model);
     }
 
-    async delete() {
+    async delete(identifier) {
         await knex(this.tableName)
-            .where(this.identiferName, model[this.identiferName])
+            .where(this.identiferName, identifier)
             .del();
     }
 
-    async findById(identier, columns = []) {
+    async findById(identifier, columns = []) {
         let result = await knex(this.tableName)
             .select(...columns)
-            .where(this.identiferName, identier)
+            .where(this.identiferName, identifier)
             .limit(1);
         return result[0];
     }
