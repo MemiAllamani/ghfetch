@@ -5,11 +5,11 @@ const sessionService = require('./services/session');
 
 const registerAuthStrategy = async (server, options) => {
     
-    await server.register(require(require('hapi-auth-jwt2')))
+    await server.register(require('hapi-auth-jwt2'));
 
     server.auth.strategy('jwt', 'jwt', {
         ...options,
-        validateFunc: async (decoded, request) => {
+        validate: async (decoded, request) => {
             const session = await sessionService.findById(decoded.id)
             return {
                 isValid: !!session,

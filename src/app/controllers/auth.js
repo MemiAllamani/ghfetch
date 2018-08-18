@@ -12,15 +12,13 @@ const jwtSecret = require('../configs').authentication.key;
 module.exports = {
     login: {
         auth: false,
-        options: {
             validate: {
                 payload: {
                     username: Joi.string().required(),
                     password: Joi.string().required()
                 }
-            }
         },
-        handler: (request, h) => {
+        handler: async (request, h) => {
             const {username, password} = request.payload
             const ghClient = githubService.getClient(username, password);
             let ghProfile = null;
@@ -53,8 +51,8 @@ module.exports = {
         }
     },
     logout: {
-        auth: true,
-        handler: (request, h) => {
+        auth: 'jwt',
+        handler: async (request, h) => {
             const sessionId = request.auth.credentials.id;
             await sessionService.delete(sessionId);
         }    

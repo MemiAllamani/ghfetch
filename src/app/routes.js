@@ -6,35 +6,40 @@ const userHandler = require('./controllers/user');
 const registerRoutes = (server) => {
 
     server.route({
-        method: 'GET',
-        path: '/',
-        handler: (request, h) => {
-            return 'Hello world';
-        }
-    })
-
-    server.route({
         method: 'POST',
         path: '/auth/login',
-        config: authHandler.login
+        options: authHandler.login
     });
 
     server.route({
         method: 'POST',
         path: '/auth/logout',
-        config: authHandler.logout
+        options: authHandler.logout
     });
 
     server.route({
         method: 'GET',
         path: '/me',
-        config: userHandler.info
+        options: userHandler.info
     });
 
     server.route({
         method: 'GET',
         path: '/me/repos',
-        config: userHandler.repos
+        options: userHandler.repos
+    });
+
+    server.route({
+        method: 'GET',
+        path: '/{param*}',
+        options: {
+            auth: false,
+        },
+        handler: {
+            directory: {
+                path: __dirname + '/../public',
+            }
+        }
     });
 };
 

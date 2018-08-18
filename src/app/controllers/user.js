@@ -7,6 +7,7 @@ const repoService = require('../services/repos');
 
 module.exports = {
     info: {
+        auth: 'jwt',
         handler: async (request, h) => {
             const sessionId = request.auth.credentials.id;
             const profiles = await userProfileService.findBy({
@@ -21,6 +22,7 @@ module.exports = {
         }
     },
     repos: {
+        auth: 'jwt',
         handler: async (request, h) => {
             const sessionId = request.auth.credentials.id;
             let repos = await repoService.findBy({
