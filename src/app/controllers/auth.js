@@ -1,6 +1,7 @@
 'use strict';
 
 const JWT = require('jsonwebtoken');
+const Joi = require('joi');
 
 const githubService = require('../services/github');
 const sessionService = require('../services/session');
@@ -11,6 +12,14 @@ const jwtSecret = require('../configs').authentication.key;
 module.exports = {
     login: {
         auth: false,
+        options: {
+            validate: {
+                payload: {
+                    username: Joi.string().required(),
+                    password: Joi.string().required()
+                }
+            }
+        },
         handler: (request, h) => {
             const {username, password} = request.payload
             const ghClient = githubService.getClient(username, password);
@@ -22,7 +31,7 @@ module.exports = {
             }
 
             if (!ghProfile) {
-                Boom.unauthorized('Invalid username or password');
+                return Boom.unauthorized('Invalid username or password');
             }
 
             const sessionId = await sessionService.create({
