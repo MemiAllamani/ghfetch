@@ -1,2 +1,3 @@
 node_modules
 resources/db.sqlite3
+dist

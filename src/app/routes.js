@@ -37,7 +37,7 @@ const registerRoutes = (server) => {
         },
         handler: {
             directory: {
-                path: __dirname + '/../public',
+                path: __dirname + '/../public/dist',
             }
         }
     });
