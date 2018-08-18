@@ -13,6 +13,9 @@ require('./app/routes')(server);
 
 
 const init = async () => {
+    // register auth strategy
+    await require('./app/auth')(server, config.authentication);
+
     await server.start();
     console.log(`Server running at: ${server.info.uri}`);
 };

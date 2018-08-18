@@ -12,6 +12,7 @@
   "dependencies": {
     "github-api": "^3.0.0",
     "hapi": "^17.5.3",
+    "hapi-auth-jwt2": "^8.1.0",
     "knex": "^0.15.2",
     "sqlite3": "^4.0.2"
   }

@@ -26,5 +26,11 @@ module.exports = {
                 console.log(message);
             }
         }
+    },
+    authentication: {
+        key: 'NeverShareYourSecret',
+        verifyOptions: {
+            algorithms: ['HS256']
+        }
     }
 };
