@@ -2,6 +2,7 @@
 
 const JWT = require('jsonwebtoken');
 const Joi = require('joi');
+const Boom = require('boom');
 
 const githubService = require('../services/github');
 const sessionService = require('../services/session');
@@ -24,30 +25,33 @@ module.exports = {
             let ghProfile = null;
             try {
                 ghProfile = await githubService.getProfile(ghClient);
-            } catch (err) {
-                console.log('Authentication failed: ', err);
-            }
+            } catch (err) {}
 
             if (!ghProfile) {
                 return Boom.unauthorized('Invalid username or password');
             }
-
-            const sessionId = await sessionService.create({
-                username, password
-            });
-            await userProfileService.create({
-                name: ghProfile.name,
-                company: ghProfile.company,
-                location: ghProfile.location,
-                avatarUrl: ghProfile.avatarUrl,
-                followers: ghProfile.followers,
-                following: ghProfile.following,
-                session_id: sessionId
-            });
-
-            return {
-                token: JWT.sign({id: sessionId}, jwtSecret)
-            };
+            try {
+                const sessionId = await sessionService.create({
+                    username, password
+                });
+                
+                await userProfileService.create({
+                    name: ghProfile.name,
+                    company: ghProfile.company,
+                    location: ghProfile.location,
+                    avatarUrl: ghProfile.avatarUrl,
+                    followers: ghProfile.followers,
+                    following: ghProfile.following,
+                    session_id: sessionId
+                });
+                
+                return {
+                    token: JWT.sign({id: sessionId}, jwtSecret)
+                };
+                
+            } catch (err) {
+                console.log(err);
+            }
         }
     },
     logout: {

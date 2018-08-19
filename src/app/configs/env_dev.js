@@ -8,7 +8,7 @@ module.exports = {
     database: {
         client: 'sqlite3',
         connection: {
-            filename: "../resources/db.sqlite3"
+            filename: "./resources/db.sqlite3"
         },
         pool: {min: 0, max: 2},
         useNullAsDefault: true,

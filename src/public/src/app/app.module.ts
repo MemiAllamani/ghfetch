@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { ReactiveFormsModule }    from '@angular/forms';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -9,6 +10,8 @@ import {MatCardModule} from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {MatInputModule} from '@angular/material/input';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login.component';
@@ -33,6 +36,7 @@ const routes : Routes = [{
   imports: [
     CommonModule,
     BrowserModule,
+    ReactiveFormsModule,
     NoopAnimationsModule,
     RouterModule.forRoot(routes, {useHash: true}),
     HttpClientModule,
@@ -40,7 +44,8 @@ const routes : Routes = [{
     MatCardModule,
     MatButtonModule,
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   declarations: [AppComponent, LoginComponent, ProfileComponent],
   providers: [
