@@ -1,3 +1,24 @@
-<p>
-  profile works!
-</p>
+<mat-card *ngIf="profile">
+  <mat-card-title>{{ profile.name }} {{ profile.company ? '@' + profile.company : '' }}</mat-card-title>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngIf="profile.location">Location: {{ profile.location }} </mat-list-item>
+      <mat-list-item>Followers: {{ profile.followers }} </mat-list-item>
+      <mat-list-item>Following: {{ profile.following }} </mat-list-item>
+      <button mat-raised-button (click)="showRepos()" color="primary">List Repos</button>
+    </mat-list>
+    <mat-accordion *ngIf="reposVisible">
+        <mat-expansion-panel *ngFor="let repo of repos">
+          <mat-expansion-panel-header>
+            <mat-panel-title>{{ repo.name }}</mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ repo.description }}</p>
+          <mat-list>
+              <mat-list-item>Private repo: {{ repo.private ? 'Yes' : 'No' }} </mat-list-item>
+            <mat-list-item>Forks: {{ repo.forks_count }} </mat-list-item>
+            <mat-list-item>Stars: {{ repo.stargazers_count }} </mat-list-item>
+          </mat-list>
+        </mat-expansion-panel>
+    </mat-accordion>
+  </mat-card-content>
+</mat-card>

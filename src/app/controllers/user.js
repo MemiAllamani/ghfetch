@@ -43,7 +43,7 @@ module.exports = {
                         session_id: sessionId
                     };
                 });
-                await repoService.insert(repos);
+                await repoService.create(repos);
             }
 
             return repos;

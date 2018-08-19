@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Profile, Repo, ProfileService } from '../services/profile.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +8,23 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfileComponent implements OnInit {
 
-  constructor() { }
+  private profile : Profile = new Profile;
+  private repos : Array<Repo> = [];
+  private reposVisible = false;
+
+  constructor(private profileService : ProfileService) { }
 
   ngOnInit() {
+    this.profileService.getProfile()
+      .subscribe(profile => this.profile = profile);
+  }
+
+  showRepos() {
+    this.profileService.getRepos()
+      .subscribe((repos) => {
+        this.repos = repos;
+        this.reposVisible = true;
+      });
   }
 
 }
