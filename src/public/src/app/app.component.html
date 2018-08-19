@@ -1,8 +1,7 @@
 <mat-toolbar color="primary">
   <span>{{ title }}</span>
   <span class="horizontal-spacer"></span>
-  <!-- We can add some welcome {{username}} -->
-  <button mat-button>Logout</button>
+  <button *ngIf="userLoggedIn" mat-button routerLink="/login">Logout</button>
 </mat-toolbar>
 
 <router-outlet></router-outlet>

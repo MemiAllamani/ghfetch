@@ -59,6 +59,7 @@ module.exports = {
         handler: async (request, h) => {
             const sessionId = request.auth.credentials.id;
             await sessionService.delete(sessionId);
+            return {};
         }    
     }
 }

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpClient } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { Observable, throwError, Subject } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 
 
@@ -17,17 +17,28 @@ export class User {
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) { }
+  private isUserAuthenticated : Subject<boolean>;
+
+  constructor(private http: HttpClient) {
+    this.isUserAuthenticated = new Subject<boolean>();
+    let isLoggedIn = !!this.getLoggedInUser();
+    this.isUserAuthenticated.next(isLoggedIn);
+   }
 
   login(user : string, pass: string) {
-    return this.http.post<any>('/auth/login', { 
+    return this.http.post<User>('/auth/login', { 
       username: user, password: pass 
     }).pipe(map(user => {
         if (user && user.token) {
           localStorage.setItem('currentUser', JSON.stringify(user));
+          this.isUserAuthenticated.next(true);
         }
         return user;
     }));
+  }
+
+  isUserLoggedIn() : Observable<boolean> {
+    return this.isUserAuthenticated.asObservable();
   }
 
   getLoggedInUser() : User {
@@ -35,7 +46,12 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.removeItem('currentUser');
+    return this.http.post<any>('/auth/logout', {}).subscribe(() => {
+      this.isUserAuthenticated.next(false);
+      localStorage.removeItem('currentUser');
+    }, () => {
+      localStorage.removeItem('currentUser');
+    });
   }
 }
 
